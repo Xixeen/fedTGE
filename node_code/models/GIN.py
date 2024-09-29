@@ -11,7 +11,7 @@ import numpy as np
 import scipy.sparse as sp
 from torch_geometric.utils import from_scipy_sparse_matrix
 from torch.nn import Sequential, Linear, ReLU
-from Node_level_Models.models.GCN import GCN
+from node_code.models.GCN import GCN
 
 class GIN(GCN,nn.Module):
 

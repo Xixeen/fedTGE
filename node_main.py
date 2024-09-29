@@ -1,11 +1,9 @@
-import os
 import torch
-import  random
 import numpy as np
 import torch_geometric.transforms as T
 import wandb
 from torch_geometric.utils import scatter
-from torch_geometric.datasets import Planetoid,Reddit2,Flickr,PPI,Reddit,Yelp
+from torch_geometric.datasets import Planetoid
 from torch_geometric.datasets import Coauthor, Amazon
 import node_code.helpers.selection_utils  as hs
 from node_code.helpers.func_utils import subgraph,get_split
@@ -14,10 +12,9 @@ from node_code.helpers.split_graph_utils import split_Random, split_Louvain, spl
 from node_code.models.construct import model_construct
 from node_code.helpers.func_utils import prune_unrelated_edge,prune_unrelated_edge_isolated
 from node_code.data.datasets import  ogba_data,Amazon_data,Coauthor_data
-
-from helpers import _aug_random_edge, set_random_seed
-from select_models_by_energy import select_models_based_on_energy
-from node_code.aggregators.aggregation import fed_EnergyBelief,  compute_similarity_matrix
+from node_code.helpers.helpers import _aug_random_edge, set_random_seed
+from node_code.helpers.select_models_by_energy import select_models_based_on_energy
+from node_code.aggregators.aggregation import fed_EnergyBelief
 
 
 def main(args, logger,round):
@@ -56,7 +53,6 @@ def main(args, logger,round):
     else:
         data = dataset[0]  # Get the graph object.
     if args.dataset == 'ogbn-proteins':
-        # Initialize features of nodes by aggregating edge features.
         row, col = data.edge_index
         data.x = scatter(data.edge_attr, col, dim_size=data.num_nodes, reduce='sum')
         _, f_dim = data.x.size()
@@ -68,8 +64,6 @@ def main(args, logger,round):
     nclass = int(data.y.max() + 1)
     print("class", int(data.y.max() + 1))
     print('==============================================================')
-
-    # Gather some statistics about the graph.
     print(f'Number of nodes: {data.num_nodes}')
     print(f'Number of edges: {data.num_edges}')
     print('======================Start Splitting the Data========================================')
@@ -93,14 +87,12 @@ def main(args, logger,round):
     for i in range(args.num_workers):
         print("Client:{}".format(i))
         print(client_data[i])
-        # Gather some statistics about the graph.
         print(f'Number of nodes: {client_data[i].num_nodes}')
         print(f'Number of edges: {client_data[i].num_edges}')
         print(f'Number of train: {client_data[i].train_mask.sum()}')
         print(f'Number of val: {client_data[i].val_mask.sum()}')
         print(f'Number of test: {client_data[i].test_mask.sum()}')
 
-    #Create train, test masks
     client_train_edge_index = []
     client_edge_mask = []
     client_mask_edge_index = []
@@ -113,8 +105,6 @@ def main(args, logger,round):
         client_idx_clean_test.append(idx_clean_test)
         client_idx_atk.append(idx_atk)
 
-
-
         edge_weight = torch.ones([data.edge_index.shape[1]], device=device, dtype=torch.float)
         data.edge_weight = edge_weight
         data.edge_index = to_undirected(data.edge_index)
@@ -126,7 +116,6 @@ def main(args, logger,round):
         client_mask_edge_index.append(mask_edge_index)
         unlabeled_idx = (torch.bitwise_not(data.test_mask)&torch.bitwise_not(data.train_mask)).nonzero().flatten()
         client_unlabeled_idx.append(unlabeled_idx)
-    #### END OF DATA PREPARATION #####
     for i in range(args.num_workers):
         print("Client:{}".format(i))
         print(client_data[i])
@@ -419,7 +408,6 @@ def main(args, logger,round):
             is_malicious = []
 
             for client_id, model in enumerate(model_list):
-                # 获取数据
                 if client_id in rs:
                     data_x = client_poison_x[client_id].to(device)
                     data_edge_index = client_poison_edge_index[client_id].to(device)

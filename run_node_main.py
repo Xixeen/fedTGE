@@ -2,14 +2,13 @@ from node_code.configs.config import args_parser
 from node_code.helpers.metrics_utils import log_test_results
 import numpy as np
 import wandb
-from helpers import set_random_seed
+from node_code.helpers.helpers import set_random_seed
 args = args_parser()
 project_name = [args.proj_name, args.proj_name+ "debug"]
 proj_name = project_name[0]
 
 def main(args):
     model_name = args.model
-    # 'data-{}_model-{}_IID-{}_num_workers-{}_num_mali-{}_epoch_backdoor-{}_frac_of_avg-{}_trigger_type-{}_trigger_position-{}_poisoning_intensity-{}'
     Alg_name = "Alg-" + args.agg_method
     file_name = Alg_name + 'D-{}_M-{}_IID-{}_NW-{}_NM-{}_EB-{}_TS-{}_TPye-{}_TPo-{}_PI-{}_OR-{}'.format(
         args.dataset,
@@ -36,9 +35,7 @@ def main(args):
     for i in range(15):
         set_random_seed(args.seed)
 
-        # wandb init
         logger = wandb.init(
-            # entity="hkust-gz",
             project=proj_name,
             group=file_name,
             name=f"round_{i}",
@@ -61,14 +58,11 @@ def main(args):
         average_ASR_list.append(average_ASR)
         average_Flip_ASR_list.append(average_Flip_ASR)
         average_transfer_attack_success_rate_list.append(average_transfer_attack_success_rate)
-        # end the logger
         wandb.finish()
 
-    # wandb table logger init
     columns = ["average_overall_performance", "average_ASR", "average_Flip_ASR", "average_transfer_attack_success_rate"]
     logger_table = wandb.Table(columns=columns, data=results_table)
     table_logger = wandb.init(
-        # entity="hkust-gz",
         project=proj_name,
         group=file_name,
         name=f"exp_results",

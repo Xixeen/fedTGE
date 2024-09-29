@@ -10,7 +10,7 @@ import metis
 
 import torch_geometric
 
-from helpers import set_random_seed
+from node_code.helpers.helpers import set_random_seed
 
 
 def split_communities(data, clients):
@@ -144,9 +144,6 @@ def split_Random(args,data):
                            dict([(nid, nid)
                                  for nid in range(nx.number_of_nodes(G))]),
                            name="index_orig")
-    print("Calculating  partition")
-    client_node_idx = {idx: [] for idx in range(client_num)}
-    indices = np.random.permutation(data.num_nodes)
 
     sum_rate = 0
     for idx, rate in enumerate(sampling_rate):

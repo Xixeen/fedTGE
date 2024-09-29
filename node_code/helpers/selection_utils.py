@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 import torch.optim as optim
-from Node_level_Models.models.construct import model_construct
+from node_code.models.construct import model_construct
 
 import os
 import time
@@ -12,7 +12,7 @@ from sklearn.cluster import KMeans
 import networkx as nx
 import dgl
 
-from helpers import set_random_seed
+from node_code.helpers.helpers import set_random_seed
 
 
 def max_norm(data):

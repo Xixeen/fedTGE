@@ -6,7 +6,7 @@ from torch.nn.parameter import Parameter
 from copy import deepcopy
 from torch_geometric.nn import GCNConv
 #from Node_level_Models.models.GNNGuard.gcn_conv import GCNConv
-from Node_level_Models.helpers.func_utils import accuracy
+from node_code.helpers.func_utils import accuracy
 
 
 class GNNGuard(nn.Module):

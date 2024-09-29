@@ -5,8 +5,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 #import utils
-from Node_level_Models.models.GCN import GCN
-from Node_level_Models.helpers.func_utils import accuracy
+from node_code.models.GCN import GCN
+from node_code.helpers.func_utils import accuracy
 #%%
 class GradWhere(torch.autograd.Function):
     """

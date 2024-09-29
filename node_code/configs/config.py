@@ -15,7 +15,7 @@ def args_parser():
                         choices=['GCN', 'GAT', 'GraphSage', 'GIN'])
     parser.add_argument('--dataset', type=str, default='Reddit',
                         help='Dataset',
-                        choices=[ 'Pubmed', 'Cs','Physics','photo'])
+                        choices=[ 'Cora','Pubmed', 'Cs','Physics','photo'])
     parser.add_argument('--train_lr', type=float, default=0.01,
                         help='Initial learning rate.')
     parser.add_argument('--weight_decay', type=float, default=5e-4,

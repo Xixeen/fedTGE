@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from Node_level_Models.helpers.func_utils import accuracy
+from node_code.helpers.func_utils import accuracy
 from copy import deepcopy
 from torch_geometric.nn import GCNConv
 import pdb

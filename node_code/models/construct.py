@@ -1,11 +1,11 @@
 # %%
-from Node_level_Models.models.GCN import GCN
-from Node_level_Models.models.GAT import GAT
-from Node_level_Models.models.SAGE import GraphSage
-from Node_level_Models.models.GCN_Encoder import GCN_Encoder
-from Node_level_Models.models.GNNGuard import GNNGuard
-from Node_level_Models.models.MedianGCN import MedianGCN
-from Node_level_Models.models.RobustGCN import RobustGCN
+from node_code.models.GCN import GCN
+from node_code.models.GAT import GAT
+from node_code.models.SAGE import GraphSage
+from node_code.models.GCN_Encoder import GCN_Encoder
+from node_code.models.GNNGuard import GNNGuard
+from node_code.models.MedianGCN import MedianGCN
+from node_code.models.RobustGCN import RobustGCN
 
 def model_construct(args,model_name,data,device,nclass):
     if(args.dataset == 'Reddit2'):
@@ -13,12 +13,12 @@ def model_construct(args,model_name,data,device,nclass):
         layer_norm_first = False
     else:
         use_ln = True
-        layer_norm_first = False
-
+        layer_norm_f
     # if args.dataset == "computers":
     #     nclass = 10
     # else:
-    #     nclass = int(data.y.max() + 1)
+    #     nclass = int(data.y.max() + 1)irst = False
+
 
     if (model_name == 'GCN'):
         model = GCN(nfeat=data.x.shape[1],\

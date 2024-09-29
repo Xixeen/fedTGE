@@ -9,7 +9,7 @@ import torch.nn as nn
 from copy import deepcopy
 from torch.nn.parameter import Parameter
 import math
-from Node_level_Models.helpers.func_utils import accuracy, sys_normalized_adjacency, sparse_mx_to_torch_sparse_tensor
+from node_code.helpers.func_utils import accuracy, sys_normalized_adjacency, sparse_mx_to_torch_sparse_tensor
 #from utils import sys_normalized_adjacency, sparse_mx_to_torch_sparse_tensor
 from torch_geometric.utils import to_dense_adj
 class GraphConvolution(nn.Module):

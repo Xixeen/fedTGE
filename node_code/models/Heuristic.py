@@ -5,10 +5,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 
-from Node_level_Models.models.GCN import GCN
+from node_code.models.GCN import GCN
 import networkx as nx
 
-from helpers import set_random_seed
+from node_code.helpers.helpers import set_random_seed
 from run_node_exps import args
 
 
