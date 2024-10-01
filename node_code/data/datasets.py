@@ -4,7 +4,6 @@
 import os
 #os.chdir('../') # go to root folder of the pro
 import sys
-#sys.path.append('/home/nfs/federated_learning_jx/federated_learning/GNN_common/data')
 
 import torch
 import numpy as np
