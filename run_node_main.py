@@ -32,7 +32,7 @@ def main(args):
     from node_main import main as backdoor_main
     set_random_seed(args.seed)
     rs = np.random.RandomState(args.seed)
-    for i in range(15):
+    for i in range(args.round):
         set_random_seed(args.seed)
 
         logger = wandb.init(
