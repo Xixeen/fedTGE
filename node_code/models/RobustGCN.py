@@ -43,7 +43,6 @@ class RobustGCN(nn.Module):
     r"""
     Description
     -----------
-    Robust Graph Convolutional Networks (`RobustGCN <http://pengcui.thumedialab.com/papers/RGCN.pdf>`__)
     Parameters
     ----------
     in_features : int
