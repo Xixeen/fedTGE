@@ -175,56 +175,25 @@ class GCN(nn.Module):
 
         return loss_train.item(), loss_val.item(), acc_train, acc_val
 
-    # def adjust_bn_layers(self, features, edge_index, edge_weight, aug_edge_index, aug_edge_weight):
-    #     bn_params = []
-    #     num_nodes = features.size(0)
-    #
-    #     # 只收集 LayerNorm 层的参数
-    #     for name, param in self.named_parameters():
-    #         if 'lns' in name:  # LayerNorm层
-    #             bn_params.append(param)
-    #
-    #     optimizer = optim.Adam(bn_params, lr=self.lr, weight_decay=self.weight_decay)
-    #
-    #     self.train()
-    #     optimizer.zero_grad()
-    #
-    #     # 前向传播、损失计算和梯度更新
-    #     p_data = self.forward_energy(features, edge_index, edge_weight)
-    #     shuf_feats = features[:, torch.randperm(features.size(1))]  # shuffle features
-    #     p_neigh = self.forward_energy(shuf_feats, aug_edge_index, aug_edge_weight)
-    #     energy = p_data - p_neigh / p_data
-    #     energy_squared_sum = torch.sum(energy ** 2)
-    #     neigh_loss = 1 / num_nodes * (energy_squared_sum + 1 / 2 * energy.norm() ** 2)
-    #     neigh_loss.backward()
-    #     optimizer.step()
 
     def adjust_bn_layers(self, features, edge_index, edge_weight, aug_edge_index, aug_edge_weight):
         bn_params = []
         num_nodes = features.size(0)
-        # 只收集 LayerNorm 层的参数
         for name, param in self.named_parameters():
             if 'lns' in name:  # LayerNorm层
                 bn_params.append(param)
         optimizer = optim.Adam(bn_params, lr=self.lr, weight_decay=self.weight_decay)
         self.train()
         optimizer.zero_grad()
-        # 前向传播、损失计算和梯度更新
         p_data = self.forward_energy(features, edge_index, edge_weight)
         shuf_feats = features[:, torch.randperm(features.size(1))]  # shuffle features
         p_neigh = self.forward_energy(shuf_feats, aug_edge_index, aug_edge_weight)
-        # 计算energy
         energy = p_data - p_neigh / p_data
         features.requires_grad_(True)
-        # 计算energy的梯度
         energy_grad = torch.autograd.grad(energy.sum(), features, create_graph=True)[0]
-        # 计算energy梯度的内积 (grad^T * grad)
         energy_grad_inner = torch.sum(energy_grad ** 2)
-        # 原始第二项保持不变
         energy_squared_sum = torch.sum(energy ** 2)
-        # 计算邻域损失
         neigh_loss = 1 / num_nodes * (energy_grad_inner + 1 / 2 * energy_squared_sum)
-        # 反向传播和优化
         neigh_loss.backward()
         optimizer.step()
 
