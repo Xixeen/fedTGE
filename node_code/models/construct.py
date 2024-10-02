@@ -12,8 +12,8 @@ def model_construct(args,model_name,data,device,nclass):
         use_ln = True
         layer_norm_first = False
     else:
-        use_ln = True
-        layer_norm_f
+        use_ln = False
+        layer_norm_first = False
     # if args.dataset == "computers":
     #     nclass = 10
     # else:
