@@ -218,7 +218,6 @@ class TUsDataset(torch.utils.data.Dataset):
         g = graphs[0]
         adj = self._sym_normalize_adj(g.adjacency_matrix().to_dense())        
         """
-            Adapted from https://github.com/leichen2018/Ring-GNN/
             Assigning node and edge feats::
             we have the adjacency matrix in R^{n x n}, the node features in R^{d_n} and edge features R^{d_e}.
             Then we build a zero-initialized tensor, say T, in R^{(1 + d_n + d_e) x n x n}. T[0, :, :] is the adjacency matrix.
