@@ -1,6 +1,6 @@
-# ENERGY-BASED BACKDOOR DEFENSE AGAINST FED-ERATED GRAPH LEARNING
+ # ENERGY-BASED BACKDOOR DEFENSE AGAINST FED-ERATED GRAPH LEARNING
 
-> Guancheng Wan$^{\dagger}$, Zitong Shi$^{\dagger}$, Wenke Huang$^{\dagger}$, Guibin Zhang, Dacheng Tao, Mang Ye
+> Guancheng Wan, Zitong Shi, Wenke Huang, Guibin Zhang, Dacheng Tao, Mang Ye
 
 
 ## Abstract
